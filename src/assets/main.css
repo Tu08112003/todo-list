@@ -25,6 +25,7 @@ a,
   body {
     display: grid;
     place-items: center;
+    background-color: #E7E9EB;
   }
 
   #app {
