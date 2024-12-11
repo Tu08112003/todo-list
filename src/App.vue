@@ -118,7 +118,6 @@
   .todo-list {
     padding: 2rem 5rem;
     border-radius: 10px;
-    flex-wrap: wrap;
   }
 
   .todo-list ul {
