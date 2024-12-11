@@ -25,7 +25,7 @@ a,
   body {
     display: grid;
     place-items: center;
-    background-color: #E7E9EB;
+    background-color: #f5f5f5;
   }
 
   #app {
@@ -34,3 +34,4 @@ a,
     place-items: center;
   }
 }
+
