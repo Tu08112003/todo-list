@@ -1,33 +1,46 @@
-<script>
-  export default{
-    data(){
-      return{
-        newTask: '',
-        tasks: []
-      };
-    },
-    methods:{
-        addTask() {
-        if (this.newTask.trim()) {
-          this.tasks.push({ text: this.newTask, completed: false });
-          this.newTask = '';
-          this.saveTasks(); 
-        }
-      },
-      deleteTask(index) {
-        this.tasks.splice(index, 1);
-        this.saveTasks(); 
-      },
-      saveTasks() {
-        localStorage.setItem('tasks', JSON.stringify(this.tasks));
-      },
-      loadTasks() {
-        const savedTasks = localStorage.getItem('tasks');
-        if (savedTasks) {
-          this.tasks = JSON.parse(savedTasks);
-        }
-      }
+<script setup>
+
+  //Cách 1 Nguyên thủy không cần script setup
+
+  // export default{
+  //   data(){
+  //     return{
+  //       newTask: '',
+  //       tasks: []
+  //     };
+  //   },
+  //   methods:{
+  //     addTask() {
+  //       if (this.newTask.trim()) {
+  //         this.tasks.push({ text: this.newTask, completed: false });
+  //         this.newTask = '';
+  //       }else{
+  //         alert("Vui lòng nhập vào task mà bạn muốn!");
+  //       }
+  //     },
+  //     deleteTask(index) {
+  //       this.tasks.splice(index, 1); 
+  //     }
+  //   }
+  // };
+
+  // Cách 2 sử dụng Single-File Components
+  import { ref } from 'vue';
+
+  const newTask = ref('');
+  const tasks = ref([]);
+
+  const addTask = () => {
+    if (newTask.value.trim()) {
+      tasks.value.push({ text: newTask.value, completed: false });
+      newTask.value = '';
+    } else {
+      alert('Vui lòng nhập vào task mà bạn muốn!');
     }
+  };
+
+  const deleteTask = (index) => {
+    tasks.value.splice(index, 1);
   };
 </script>
 
@@ -38,7 +51,7 @@
       <div class="input-todo">
         <input type="text"
           v-model="newTask"
-          placeholder="Add...."
+          placeholder="Add new...."
           v-on:keyup.enter="addTask"
         />
         <button v-on:click="addTask">Add</button>
