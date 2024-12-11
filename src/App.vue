@@ -14,21 +14,50 @@
   //       if (this.newTask.trim()) {
   //         this.tasks.push({ text: this.newTask, completed: false });
   //         this.newTask = '';
+  //         this.saveTasksToLocalStorage();
   //       }else{
   //         alert("Vui lòng nhập vào task mà bạn muốn!");
   //       }
   //     },
   //     deleteTask(index) {
   //       this.tasks.splice(index, 1); 
+  //       this.saveTasksToLocalStorage();
   //     }
+    //  saveTasksToLocalStorage() {
+    //     localStorage.setItem('tasks', JSON.stringify(this.tasks));
+    //   },
+    //   loadTasksFromLocalStorage() {
+    //     const savedTasks = localStorage.getItem('tasks');
+    //     if (savedTasks) {
+    //       this.tasks = JSON.parse(savedTasks);
+    //     }
+    //   }
+    // },
+    // created() {
+    //   this.loadTasksFromLocalStorage(); 
+    // }
   //   }
   // };
 
   // Cách 2 sử dụng Single-File Components
-  import { ref } from 'vue';
+  import { ref, onMounted, watch } from 'vue';
 
   const newTask = ref('');
   const tasks = ref([]);
+
+  
+  const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks.value));
+  };
+
+  onMounted(() => {
+    const savedTasks = localStorage.getItem('tasks');
+    if (savedTasks) {
+      tasks.value = JSON.parse(savedTasks);
+    }
+  });
+
+  watch(tasks, saveTasksToLocalStorage, { deep: true });
 
   const addTask = () => {
     if (newTask.value.trim()) {
@@ -37,11 +66,12 @@
     } else {
       alert('Vui lòng nhập vào task mà bạn muốn!');
     }
-  };
+};
 
-  const deleteTask = (index) => {
-    tasks.value.splice(index, 1);
-  };
+const deleteTask = (index) => {
+  tasks.value.splice(index, 1);
+};
+
 </script>
 
 <template>
@@ -73,7 +103,7 @@
 <style scoped>
   .container {
     display: grid;
-    grid-auto-rows: 1fr 1fr;
+    grid-auto-rows: 1fr 2fr;
     width: 100%;
     height: 100%;
     padding: 2rem;
@@ -131,6 +161,7 @@
   .todo-list {
     padding: 2rem 5rem;
     border-radius: 10px;
+    align-items: center;
   }
 
   .todo-list ul {
@@ -138,7 +169,9 @@
     padding: 0;
     margin: 0;
     overflow-y: auto;
-    max-height: 300px;
+    max-height: 19rem;
+    align-items: center;
+
   }
 
   .todo-list li {
